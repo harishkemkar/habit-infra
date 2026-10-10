@@ -12,3 +12,8 @@ module "networking" {
   # Pass the dynamically discovered AZs instead of hardcoding
   azs = data.aws_availability_zones.available.names
 }
+
+module "dynamodb" {
+  source  = "./modules/dynamodb"
+  project = "habit"
+}
