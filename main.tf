@@ -13,7 +13,16 @@ module "networking" {
   azs = data.aws_availability_zones.available.names
 }
 
+
+
 module "dynamodb" {
   source  = "./modules/dynamodb"
   project = "habit"
 }
+
+
+output "debug_dynamodb_module_loaded" {
+  value = module.dynamodb.dynamodb_table_name
+  description = "If this shows up, the DynamoDB module was executed"
+}
+
