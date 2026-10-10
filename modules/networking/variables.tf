@@ -1,28 +1,24 @@
 variable "project" {
-  description = "Project name prefix"
   type        = string
+  description = "Project name prefix for resources"
 }
 
 variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
   type        = string
-  default     = "10.0.0.0/16"
+  description = "CIDR block for the VPC"
 }
 
 variable "public_subnet_cidrs" {
-  description = "CIDRs for public subnets"
   type        = list(string)
+  description = "CIDR blocks for public subnets"
 }
 
 variable "private_subnet_cidrs" {
-  description = "CIDRs for private subnets"
   type        = list(string)
+  description = "CIDR blocks for private subnets"
 }
 
-
-
 variable "azs" {
-  description = "Availability zones"
   type        = list(string)
-  default     = []
+  description = "Availability zones for subnets"
 }
