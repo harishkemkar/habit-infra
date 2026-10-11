@@ -22,3 +22,9 @@ variable "azs" {
   type        = list(string)
   description = "Availability zones for subnets"
 }
+
+variable "nat_subnet_index" {
+  type        = number
+  description = "Index of public subnet to place NAT Gateway"
+  default     = 0
+}

@@ -2,15 +2,19 @@ resource "aws_vpc" "habit_vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
+
   tags = {
-    Name = "${var.project}-vpc"
+    Name    = "${var.project}-vpc"
+    Project = var.project
   }
 }
 
 resource "aws_internet_gateway" "habit_igw" {
   vpc_id = aws_vpc.habit_vpc.id
+
   tags = {
-    Name = "${var.project}-igw"
+    Name    = "${var.project}-igw"
+    Project = var.project
   }
 }
 
@@ -21,8 +25,10 @@ resource "aws_subnet" "public" {
   cidr_block              = var.public_subnet_cidrs[count.index]
   map_public_ip_on_launch = true
   availability_zone       = var.azs[count.index]
+
   tags = {
-    Name = "${var.project}-public-${count.index}"
+    Name    = "${var.project}-public-${count.index}"
+    Project = var.project
   }
 }
 
@@ -32,24 +38,29 @@ resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.habit_vpc.id
   cidr_block        = var.private_subnet_cidrs[count.index]
   availability_zone = var.azs[count.index]
+
   tags = {
-    Name = "${var.project}-private-${count.index}"
+    Name    = "${var.project}-private-${count.index}"
+    Project = var.project
   }
 }
 
 # Public Route Table
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.habit_vpc.id
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.habit_igw.id
   }
+
   tags = {
-    Name = "${var.project}-public-rt"
+    Name    = "${var.project}-public-rt"
+    Project = var.project
   }
 }
 
-# Associate Public Subnets with Public Route Table
+# Associate Public Subnets
 resource "aws_route_table_association" "public" {
   count          = length(var.public_subnet_cidrs)
   subnet_id      = aws_subnet.public[count.index].id
@@ -59,12 +70,14 @@ resource "aws_route_table_association" "public" {
 # Private Route Table
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.habit_vpc.id
+
   tags = {
-    Name = "${var.project}-private-rt"
+    Name    = "${var.project}-private-rt"
+    Project = var.project
   }
 }
 
-# Associate Private Subnets with Private Route Table
+# Associate Private Subnets
 resource "aws_route_table_association" "private" {
   count          = length(var.private_subnet_cidrs)
   subnet_id      = aws_subnet.private[count.index].id
@@ -73,17 +86,21 @@ resource "aws_route_table_association" "private" {
 
 # NAT Gateway + Elastic IP
 resource "aws_eip" "nat" {
-  vpc = true
+  domain = "vpc"   # ✅ correct for Terraform 1.16.5
+
   tags = {
-    Name = "${var.project}-nat-eip"
+    Name    = "${var.project}-nat-eip"
+    Project = var.project
   }
 }
 
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public[0].id   # Place NAT in first public subnet
+  subnet_id     = aws_subnet.public[var.nat_subnet_index].id
+
   tags = {
-    Name = "${var.project}-nat"
+    Name    = "${var.project}-nat"
+    Project = var.project
   }
 }
 
