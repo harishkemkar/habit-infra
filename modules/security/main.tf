@@ -1,3 +1,4 @@
+#adding useless comment 
 resource "aws_security_group" "alb_sg" {
   name        = "${var.project}-alb-sg"
   description = "Allow HTTP/HTTPS inbound"
