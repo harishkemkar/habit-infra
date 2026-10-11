@@ -4,6 +4,27 @@ data "aws_availability_zones" "available" {}
 
 
 
+
+module "security" {
+  source  = "./modules/security"
+  project = "habit"
+  vpc_id  = module.networking.vpc_id
+}
+
+module "alb" {
+  source            = "./modules/alb"
+  project           = "habit"
+  public_subnet_ids = module.networking.public_subnet_ids
+  alb_sg_id         = module.security.alb_sg_id
+}
+
+module "ecs" {
+  source  = "./modules/ecs"
+  project = "habit"
+}
+
+
+
 module "dynamodb" {
   source  = "./modules/dynamodb"
   project = "habit"
@@ -27,21 +48,4 @@ module "networking" {
 }
 
 
-module "security" {
-  source  = "./modules/security"
-  project = "habit"
-  vpc_id  = module.networking.vpc_id
-}
-
-module "alb" {
-  source            = "./modules/alb"
-  project           = "habit"
-  public_subnet_ids = module.networking.public_subnet_ids
-  alb_sg_id         = module.security.alb_sg_id
-}
-
-module "ecs" {
-  source  = "./modules/ecs"
-  project = "habit"
-}
 
