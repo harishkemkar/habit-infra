@@ -45,7 +45,3 @@ module "ecs" {
   project = "habit"
 }
 
-module "dynamodb" {
-  source  = "./modules/dynamodb"
-  project = "habit"
-}
