@@ -1,3 +1,4 @@
+#useless comment 1
 resource "aws_ecs_cluster" "habit_cluster" {
   name = "${var.project}-ecs-cluster"
 

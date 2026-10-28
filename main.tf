@@ -1,4 +1,5 @@
 #useless comment 1 
+#useless comment 2
 # Fetch available AZs dynamically from the region set in AWS_DEFAULT_REGION
 data "aws_availability_zones" "available" {}
 
