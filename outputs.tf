@@ -13,4 +13,5 @@ output "ecr_repository_url" {
 }
 
 output "ecr_repository_arn" {
-  value = module.ecs.ecr_repository_arn}
+  value = module.ecs.ecr_repository_arn
+  }

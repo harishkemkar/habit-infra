@@ -12,4 +12,5 @@ output "ecr_repository_url" {
 }
 
 output "ecr_repository_arn" {
-  value = aws_ecr_repository.habit_repo.arn}
+  value = aws_ecr_repository.habit_repo.arn
+  }
