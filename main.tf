@@ -53,5 +53,5 @@ module "iam" {
 
   source = "./modules/iam"
 
-  project = var.project
+  project = "habit"
 }

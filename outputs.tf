@@ -26,9 +26,7 @@ output "alb_sg_id" {
   value = module.security.alb_sg_id
 }
 
-output "alb_target_group_arn" {
-  value = module.alb.alb_target_group_arn
-}
+
 
 output "ecs_execution_role_arn" {
   value = module.iam.ecs_execution_role_arn
