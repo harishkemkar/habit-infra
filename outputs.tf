@@ -41,3 +41,16 @@ output "ecs_execution_role_arn" {
 output "ecs_execution_role_name" {
   value = module.iam.ecs_execution_role_name
 }
+
+
+output "habit_api_target_group_arn" {
+  value = module.alb.habit_api_target_group_arn
+}
+
+output "habit_ui_target_group_arn" {
+  value = module.alb.habit_ui_target_group_arn
+}
+
+output "alb_listener_arn" {
+  value = module.alb.alb_listener_arn
+}

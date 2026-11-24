@@ -14,10 +14,16 @@ module "security" {
 
 module "alb" {
   source            = "./modules/alb"
+
   project           = "habit"
+
   public_subnet_ids = module.networking.public_subnet_ids
+
   alb_sg_id         = module.security.alb_sg_id
+
+  vpc_id            = module.networking.vpc_id
 }
+
 
 module "ecs" {
   source  = "./modules/ecs"
@@ -55,3 +61,5 @@ module "iam" {
 
   project = "habit"
 }
+
+
